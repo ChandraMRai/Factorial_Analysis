@@ -1,4 +1,4 @@
-setwd("C:/Users/Dell/Desktop/Dr. BBS/Composite score aspects")
+setwd("C:/Users/Dell/Desktop/Data/Composite score aspects")
 
 library(readxl)
 Participation <- read_excel("Farmers_data_V6(22_02_2022).xlsx")
@@ -82,10 +82,10 @@ install.packages('writexl')
 library(writexl)
 
 write_xlsx(final.scores.ssl, 
-           "C:/Users/Dell/Desktop/Dr. BBS\\participation.xlsx")
+           "C:/Users/Dell/Desktop/Data\\participation.xlsx")
 df<-data.frame(final.scores.ssl)
 write_xlsx(df, 
-           "C:/Users/Dell/Desktop/Dr. BBS/Composite score aspects\\cerealseedcompositescore.xlsx")
+           "C:/Users/Dell/Desktop/Data/Composite score aspects\\cerealseedcompositescore.xlsx")
 
 # Production
 
