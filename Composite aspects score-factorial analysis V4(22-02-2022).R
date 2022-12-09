@@ -1,43 +1,26 @@
-setwd("C:/Users/Dell/Desktop/Data/Composite score aspects")
 
+setwd("C:/Users/Dell/Desktop/YD")
+
+# Data
 library(readxl)
-Participation <- read_excel("Farmers_data_V6(22_02_2022).xlsx")
+final <- read_excel("Data.xlsx")
+
+# Travel characteristics
+extension<- cbind (final$Frequency, 
+                   final$Weekvisit,
+                   final$Dayvisit,
+                   final$`Duration Spent`,
+                   final$Distance...15)
 
 
-Cerealseeds<- cbind (Participation$Improveaccesstoqualityseedsofcereals,
-                        Participation$Improveprotectionofindigenousseeds,
-                        Participation$Availabilityofimprovedvarietiesofcerealsseeds)
-
-Production<-cbind(Participation$Improveplantprotection,
-                  Participation$Improvestorageofcereals,
-                  Participation$Improveirrigationforfarming
-                  )
-
-Environment<-cbind(Participation$Reducelandslideproblemsinthefarm,
-                   Participation$Reducepollutants,
-                   Participation$Createhabitatsforwildlife,
-                   Participation$Improvesoilfertilityforcereals)
-View(Environment)
-
-Social<-cbind(Participation$Improvenetworkingamongfarmers,
-              Participation$`Increasefarmers'groupsinthecommunity`,
-              Participation$Improvelocalgroupmanagement,
-              Participation$Improverelationshipoffarmersamongthem)
-
-Marketing<-cbind(Participation$Setpriceofgrains,
-                 Participation$Negotiatepriceforcereals,
-                 Participation$Findmarketforcereals)
-
-# Cerealseeds
-
-Cerealseed_score<-factanal(x=Cerealseeds, factors = 1, 
+extension_score<-factanal(x=extension, factors = 1, 
                         scores = "regression")
-Cerealseed_score
-Cerealseed_score_score<-as.vector(Cerealseed_score$scores)
-View(Cerealseed_score_score)
-summary(Cerealseed_score_score)
 
-fal.loadings<-Cerealseed_score$loadings[,1]
+extension_score_score<-as.vector(extension_score$scores)
+
+summary(extension_score_score)
+
+fal.loadings<-extension_score$loadings[,1]
 fal.loadings
 
 weighted.sd<-function(x,w){
@@ -58,10 +41,9 @@ re.scale<- function(f.scores,raw.data,loadings){
   return(final.scores)
 }
 final.scores.ssl<-re.scale(
-  Cerealseed_score_score,Cerealseeds,fal.loadings)  
+  extension_score_score,extension,fal.loadings)  
 
 summary(final.scores.ssl)
-View(final.scores.ssl)
 
 get.scores.fun<-function(data){
   fact<- factanal(data,factors=1,scores='regression')
@@ -74,29 +56,34 @@ get.scores.fun<-function(data){
 }
 get.scores.fun
 
-scores.and.loadings.1<-get.scores.fun(Cerealseeds)
+scores.and.loadings.1<-get.scores.fun(extension)
 scores.and.loadings.1$factor.loadings
-View(scores.and.loadings.1)
 
-install.packages('writexl')
 library(writexl)
 
 write_xlsx(final.scores.ssl, 
-           "C:/Users/Dell/Desktop/Data\\participation.xlsx")
+           "C:/Users/Dell/Desktop/YD\\ext1.xlsx")
 df<-data.frame(final.scores.ssl)
 write_xlsx(df, 
-           "C:/Users/Dell/Desktop/Data/Composite score aspects\\cerealseedcompositescore.xlsx")
+           "C:/Users/Dell/Desktop/YD\\ext2.xlsx")
 
-# Production
+# Social cohesion 
+extension<- cbind (final$Nature,
+final$`Physical activity`,
+final$`Family and friends trip`,
+final$`Children playtime`,
+final$`Peace of mind and relaxation`,
+final$`Educational purpose`,
+final$`Away from busy town`)
 
-Production_score<-factanal(x=Production, factors = 1, 
-                           scores = "regression")
-Production_score
-Production_score_score<-as.vector(Production_score$scores)
+extension_score<-factanal(x=extension, factors = 1, 
+                          scores = "regression")
+View(extension)
+extension_score_score<-as.vector(extension_score$scores)
 
-summary(Production_score_score)
+summary(extension_score_score)
 
-fal.loadings<-Production_score$loadings[,1]
+fal.loadings<-extension_score$loadings[,1]
 fal.loadings
 
 weighted.sd<-function(x,w){
@@ -117,20 +104,177 @@ re.scale<- function(f.scores,raw.data,loadings){
   return(final.scores)
 }
 final.scores.ssl<-re.scale(
-  Production_score_score,Production,fal.loadings)  
+  extension_score_score,extension,fal.loadings)  
 
 summary(final.scores.ssl)
-View(final.scores.ssl)
+
+get.scores.fun<-function(data){
+  fact<- factanal(data,factors=1,scores='regression')
+  f.scores<-fact$scores[,1]
+  f.loads<-fact$loadings[,1]
+  rescaled.scores<-re.scale(f.scores, data,f.loads)
+  output.list<-list(rescaled.scores, f.loads)
+  names(output.list)<- c("rescaled.scores", "factor.loadings")
+  return(output.list)
+}
+get.scores.fun
+
+scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1$factor.loadings
+
+library(writexl)
+
+write_xlsx(final.scores.ssl, 
+           "C:/Users/Dell/Desktop/YD\\ext12.xlsx")
+df<-data.frame(final.scores.ssl)
+write_xlsx(df, 
+           "C:/Users/Dell/Desktop/YD\\ext22.xlsx")
+
+
+# Facilities
+
+extension<- cbind (final$`Trails and paths...26`,
+                   final$`Place to sit and rest...27`,
+                   final$`Clean restrooms...28`,
+                   final$`Childrens' playgrounds...29`,
+                   final$`Rich natural plants...30`,
+                   final$`Grass lawns and flowers...31`,
+                   final$`Tall tress and canopy...32`,
+                   final$`Landscape naturalness with clean air...43`,
+                   final$Wastebin...44,
+                   final$Illumination...35,
+                   final$Safety)
+
+extension_score<-factanal(x=extension, factors = 1, 
+                          scores = "regression")
+
+extension_score_score<-as.vector(extension_score$scores)
+
+summary(extension_score_score)
+
+fal.loadings<-extension_score$loadings[,1]
+fal.loadings
+
+weighted.sd<-function(x,w){
+  sum.w <- sum(w)
+  sum.w2 <- sum(w^2)
+  mean.w<- sum(x*w)/sum(w)
+  x.sd.w<-sqrt((sum.w/(sum.w^2-sum.w2))*sum(w*(x-mean.w)^2))
+  return(x.sd.w)
+}
+
+re.scale<- function(f.scores,raw.data,loadings){
+  fz.scores <- (f.scores + mean(f.scores))/(sd(f.scores))
+  means <- apply(raw.data,1, weighted.mean, w=loadings)
+  sds <- apply(raw.data, 1, weighted.sd, w=loadings)
+  grand.mean<-mean(means)
+  grand.sd<-mean(sds)
+  final.scores<-((fz.scores*grand.sd)+grand.mean)
+  return(final.scores)
+}
+final.scores.ssl<-re.scale(
+  extension_score_score,extension,fal.loadings)  
+
+summary(final.scores.ssl)
+
+get.scores.fun<-function(data){
+  fact<- factanal(data,factors=1,scores='regression')
+  f.scores<-fact$scores[,1]
+  f.loads<-fact$loadings[,1]
+  rescaled.scores<-re.scale(f.scores, data,f.loads)
+  output.list<-list(rescaled.scores, f.loads)
+  names(output.list)<- c("rescaled.scores", "factor.loadings")
+  return(output.list)
+}
+get.scores.fun
+
+scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1$factor.loadings
+
+library(writexl)
+
+write_xlsx(final.scores.ssl, 
+           "C:/Users/Dell/Desktop/YD\\ext12.xlsx")
+df<-data.frame(final.scores.ssl)
+write_xlsx(df, 
+           "C:/Users/Dell/Desktop/YD\\facilities2.xlsx")
+
+
+# Socialbenefits
+extension<- cbind (final$`health and wellbeing`,
+                   final$nature,
+                   final$`family-socail cohesion`,
+                   final$`City image`)
+
+extension_score<-factanal(x=extension, factors = 1, 
+                          scores = "regression")
+
+extension_score_score<-as.vector(extension_score$scores)
+
+summary(extension_score_score)
+
+fal.loadings<-extension_score$loadings[,1]
+fal.loadings
+
+weighted.sd<-function(x,w){
+  sum.w <- sum(w)
+  sum.w2 <- sum(w^2)
+  mean.w<- sum(x*w)/sum(w)
+  x.sd.w<-sqrt((sum.w/(sum.w^2-sum.w2))*sum(w*(x-mean.w)^2))
+  return(x.sd.w)
+}
+
+re.scale<- function(f.scores,raw.data,loadings){
+  fz.scores <- (f.scores + mean(f.scores))/(sd(f.scores))
+  means <- apply(raw.data,1, weighted.mean, w=loadings)
+  sds <- apply(raw.data, 1, weighted.sd, w=loadings)
+  grand.mean<-mean(means)
+  grand.sd<-mean(sds)
+  final.scores<-((fz.scores*grand.sd)+grand.mean)
+  return(final.scores)
+}
+final.scores.ssl<-re.scale(
+  extension_score_score,extension,fal.loadings)  
+
+summary(final.scores.ssl)
+
+get.scores.fun<-function(data){
+  fact<- factanal(data,factors=1,scores='regression')
+  f.scores<-fact$scores[,1]
+  f.loads<-fact$loadings[,1]
+  rescaled.scores<-re.scale(f.scores, data,f.loads)
+  output.list<-list(rescaled.scores, f.loads)
+  names(output.list)<- c("rescaled.scores", "factor.loadings")
+  return(output.list)
+}
+get.scores.fun
+
+scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1$factor.loadings
+
+library(writexl)
+
+write_xlsx(final.scores.ssl, 
+           "C:/Users/Dell/Desktop/YD\\ext12.xlsx")
+df<-data.frame(final.scores.ssl)
+write_xlsx(df, 
+           "C:/Users/Dell/Desktop/YD\\socialbenefits.xlsx")
 
 # Environment
-Environment_score<-factanal(x=Environment, factors = 1, 
-                           scores = "regression")
-Environment_score
-Environment_score_score<-as.vector(Environment_score$scores)
-View(Environment_score_score)
+extension<- cbind (final$`urban air pollution`,
+                   final$`urban heat island`,
+                   final$Carbondioxide,
+                   final$`Biodiversity promotion`,
+                   final$Noise)
 
+extension_score<-factanal(x=extension, factors = 1, 
+                          scores = "regression")
 
-fal.loadings<-Environment_score$loadings[,1]
+extension_score_score<-as.vector(extension_score$scores)
+
+summary(extension_score_score)
+
+fal.loadings<-extension_score$loadings[,1]
 fal.loadings
 
 weighted.sd<-function(x,w){
@@ -151,75 +295,31 @@ re.scale<- function(f.scores,raw.data,loadings){
   return(final.scores)
 }
 final.scores.ssl<-re.scale(
-  Environment_score_score,Environment,fal.loadings)  
+  extension_score_score,extension,fal.loadings)  
 
 summary(final.scores.ssl)
-View(final.scores.ssl)
 
-# Social
-Social_score<-factanal(x=Social, factors = 1, 
-                           scores = "regression")
-Social_score
-Social_score_score<-as.vector(Social_score$scores)
-
-
-fal.loadings<-Social_score$loadings[,1]
-fal.loadings
-
-weighted.sd<-function(x,w){
-  sum.w <- sum(w)
-  sum.w2 <- sum(w^2)
-  mean.w<- sum(x*w)/sum(w)
-  x.sd.w<-sqrt((sum.w/(sum.w^2-sum.w2))*sum(w*(x-mean.w)^2))
-  return(x.sd.w)
+get.scores.fun<-function(data){
+  fact<- factanal(data,factors=1,scores='regression')
+  f.scores<-fact$scores[,1]
+  f.loads<-fact$loadings[,1]
+  rescaled.scores<-re.scale(f.scores, data,f.loads)
+  output.list<-list(rescaled.scores, f.loads)
+  names(output.list)<- c("rescaled.scores", "factor.loadings")
+  return(output.list)
 }
+get.scores.fun
 
-re.scale<- function(f.scores,raw.data,loadings){
-  fz.scores <- (f.scores + mean(f.scores))/(sd(f.scores))
-  means <- apply(raw.data,1, weighted.mean, w=loadings)
-  sds <- apply(raw.data, 1, weighted.sd, w=loadings)
-  grand.mean<-mean(means)
-  grand.sd<-mean(sds)
-  final.scores<-((fz.scores*grand.sd)+grand.mean)
-  return(final.scores)
-}
-final.scores.ssl<-re.scale(
-  Social_score_score,Social,fal.loadings)  
+scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1$factor.loadings
 
-summary(final.scores.ssl)
-View(final.scores.ssl)
+library(writexl)
 
-# Marketing
+write_xlsx(final.scores.ssl, 
+           "C:/Users/Dell/Desktop/YD\\ext12.xlsx")
+df<-data.frame(final.scores.ssl)
+write_xlsx(df, 
+           "C:/Users/Dell/Desktop/YD\\environmentalbenefits.xlsx")
 
-Marketing_score<-factanal(x=Marketing, factors = 1, 
-                           scores = "regression")
-Marketing_score
-Marketing_score_score<-as.vector(Marketing_score$scores)
-View(Marketing_score_score)
-summary(Marketing_score_score)
 
-fal.loadings<-Marketing_score$loadings[,1]
-fal.loadings
 
-weighted.sd<-function(x,w){
-  sum.w <- sum(w)
-  sum.w2 <- sum(w^2)
-  mean.w<- sum(x*w)/sum(w)
-  x.sd.w<-sqrt((sum.w/(sum.w^2-sum.w2))*sum(w*(x-mean.w)^2))
-  return(x.sd.w)
-}
-
-re.scale<- function(f.scores,raw.data,loadings){
-  fz.scores <- (f.scores + mean(f.scores))/(sd(f.scores))
-  means <- apply(raw.data,1, weighted.mean, w=loadings)
-  sds <- apply(raw.data, 1, weighted.sd, w=loadings)
-  grand.mean<-mean(means)
-  grand.sd<-mean(sds)
-  final.scores<-((fz.scores*grand.sd)+grand.mean)
-  return(final.scores)
-}
-final.scores.ssl<-re.scale(
-  Marketing_score_score,Marketing,fal.loadings)  
-
-summary(final.scores.ssl)
-View(final.scores.ssl)
