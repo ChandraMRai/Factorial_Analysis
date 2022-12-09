@@ -6,21 +6,21 @@ library(readxl)
 final <- read_excel("Data.xlsx")
 
 # Travel characteristics
-extension<- cbind (final$Frequency, 
+Travel<- cbind (final$Frequency, 
                    final$Weekvisit,
                    final$Dayvisit,
                    final$`Duration Spent`,
                    final$Distance...15)
 
 
-extension_score<-factanal(x=extension, factors = 1, 
+travel_score<-factanal(x=extension, factors = 1, 
                         scores = "regression")
 
-extension_score_score<-as.vector(extension_score$scores)
+travel_score_score<-as.vector(travel_score$scores)
 
-summary(extension_score_score)
+summary(travel_score_score)
 
-fal.loadings<-extension_score$loadings[,1]
+fal.loadings<-travel_score$loadings[,1]
 fal.loadings
 
 weighted.sd<-function(x,w){
@@ -41,7 +41,7 @@ re.scale<- function(f.scores,raw.data,loadings){
   return(final.scores)
 }
 final.scores.ssl<-re.scale(
-  extension_score_score,extension,fal.loadings)  
+  travel_score_score,travel,fal.loadings)  
 
 summary(final.scores.ssl)
 
@@ -56,19 +56,19 @@ get.scores.fun<-function(data){
 }
 get.scores.fun
 
-scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1<-get.scores.fun(travel)
 scores.and.loadings.1$factor.loadings
 
 library(writexl)
 
 write_xlsx(final.scores.ssl, 
-           "C:/Users/Dell/Desktop/YD\\ext1.xlsx")
+           "C:/Users/Dell/Desktop/YD\\travel.xlsx")
 df<-data.frame(final.scores.ssl)
 write_xlsx(df, 
-           "C:/Users/Dell/Desktop/YD\\ext2.xlsx")
+           "C:/Users/Dell/Desktop/YD\\travel.xlsx")
 
 # Social cohesion 
-extension<- cbind (final$Nature,
+social<- cbind (final$Nature,
 final$`Physical activity`,
 final$`Family and friends trip`,
 final$`Children playtime`,
@@ -76,14 +76,14 @@ final$`Peace of mind and relaxation`,
 final$`Educational purpose`,
 final$`Away from busy town`)
 
-extension_score<-factanal(x=extension, factors = 1, 
+social_score<-factanal(x=social, factors = 1, 
                           scores = "regression")
 View(extension)
-extension_score_score<-as.vector(extension_score$scores)
+social_score_score<-as.vector(social_score$scores)
 
-summary(extension_score_score)
+summary(social_score_score)
 
-fal.loadings<-extension_score$loadings[,1]
+fal.loadings<-social_score$loadings[,1]
 fal.loadings
 
 weighted.sd<-function(x,w){
@@ -104,7 +104,7 @@ re.scale<- function(f.scores,raw.data,loadings){
   return(final.scores)
 }
 final.scores.ssl<-re.scale(
-  extension_score_score,extension,fal.loadings)  
+  social_score_score,social,fal.loadings)  
 
 summary(final.scores.ssl)
 
@@ -119,21 +119,19 @@ get.scores.fun<-function(data){
 }
 get.scores.fun
 
-scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1<-get.scores.fun(social)
 scores.and.loadings.1$factor.loadings
 
-library(writexl)
-
 write_xlsx(final.scores.ssl, 
-           "C:/Users/Dell/Desktop/YD\\ext12.xlsx")
+           "C:/Users/Dell/Desktop/YD\\social.xlsx")
 df<-data.frame(final.scores.ssl)
 write_xlsx(df, 
-           "C:/Users/Dell/Desktop/YD\\ext22.xlsx")
+           "C:/Users/Dell/Desktop/YD\\social.xlsx")
 
 
 # Facilities
 
-extension<- cbind (final$`Trails and paths...26`,
+facilities<- cbind (final$`Trails and paths...26`,
                    final$`Place to sit and rest...27`,
                    final$`Clean restrooms...28`,
                    final$`Childrens' playgrounds...29`,
@@ -145,14 +143,14 @@ extension<- cbind (final$`Trails and paths...26`,
                    final$Illumination...35,
                    final$Safety)
 
-extension_score<-factanal(x=extension, factors = 1, 
+facilities_score<-factanal(x=facilities, factors = 1, 
                           scores = "regression")
 
-extension_score_score<-as.vector(extension_score$scores)
+facilities_score_score<-as.vector(facilities_score$scores)
 
-summary(extension_score_score)
+summary(facilities_score_score)
 
-fal.loadings<-extension_score$loadings[,1]
+fal.loadings<-facilities_score$loadings[,1]
 fal.loadings
 
 weighted.sd<-function(x,w){
@@ -173,7 +171,7 @@ re.scale<- function(f.scores,raw.data,loadings){
   return(final.scores)
 }
 final.scores.ssl<-re.scale(
-  extension_score_score,extension,fal.loadings)  
+  facilities_score_score,facilities,fal.loadings)  
 
 summary(final.scores.ssl)
 
@@ -188,32 +186,30 @@ get.scores.fun<-function(data){
 }
 get.scores.fun
 
-scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1<-get.scores.fun(facilities)
 scores.and.loadings.1$factor.loadings
 
-library(writexl)
-
 write_xlsx(final.scores.ssl, 
-           "C:/Users/Dell/Desktop/YD\\ext12.xlsx")
+           "C:/Users/Dell/Desktop/YD\\facilities.xlsx")
 df<-data.frame(final.scores.ssl)
 write_xlsx(df, 
-           "C:/Users/Dell/Desktop/YD\\facilities2.xlsx")
+           "C:/Users/Dell/Desktop/YD\\facilities.xlsx")
 
 
 # Socialbenefits
-extension<- cbind (final$`health and wellbeing`,
+socialbenefits<- cbind (final$`health and wellbeing`,
                    final$nature,
                    final$`family-socail cohesion`,
                    final$`City image`)
 
-extension_score<-factanal(x=extension, factors = 1, 
+socialbenefits_score<-factanal(x=socialbenefits, factors = 1, 
                           scores = "regression")
 
-extension_score_score<-as.vector(extension_score$scores)
+socialbenefits_score_score<-as.vector(socialbenefits_score$scores)
 
-summary(extension_score_score)
+summary(socialbenefits_score_score)
 
-fal.loadings<-extension_score$loadings[,1]
+fal.loadings<-socialbenefits_score$loadings[,1]
 fal.loadings
 
 weighted.sd<-function(x,w){
@@ -234,7 +230,7 @@ re.scale<- function(f.scores,raw.data,loadings){
   return(final.scores)
 }
 final.scores.ssl<-re.scale(
-  extension_score_score,extension,fal.loadings)  
+  socialbenefits_score_score,socialbenefits,fal.loadings)  
 
 summary(final.scores.ssl)
 
@@ -249,32 +245,30 @@ get.scores.fun<-function(data){
 }
 get.scores.fun
 
-scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1<-get.scores.fun(socialbenefits)
 scores.and.loadings.1$factor.loadings
 
-library(writexl)
-
 write_xlsx(final.scores.ssl, 
-           "C:/Users/Dell/Desktop/YD\\ext12.xlsx")
+           "C:/Users/Dell/Desktop/YD\\socialbenefits.xlsx")
 df<-data.frame(final.scores.ssl)
 write_xlsx(df, 
            "C:/Users/Dell/Desktop/YD\\socialbenefits.xlsx")
 
 # Environment
-extension<- cbind (final$`urban air pollution`,
+environment<- cbind (final$`urban air pollution`,
                    final$`urban heat island`,
                    final$Carbondioxide,
                    final$`Biodiversity promotion`,
                    final$Noise)
 
-extension_score<-factanal(x=extension, factors = 1, 
+environment_score<-factanal(x=environment, factors = 1, 
                           scores = "regression")
 
-extension_score_score<-as.vector(extension_score$scores)
+environment_score_score<-as.vector(environment_score$scores)
 
-summary(extension_score_score)
+summary(environment_score_score)
 
-fal.loadings<-extension_score$loadings[,1]
+fal.loadings<-environment_score$loadings[,1]
 fal.loadings
 
 weighted.sd<-function(x,w){
@@ -295,7 +289,7 @@ re.scale<- function(f.scores,raw.data,loadings){
   return(final.scores)
 }
 final.scores.ssl<-re.scale(
-  extension_score_score,extension,fal.loadings)  
+  environment_score_score,environment,fal.loadings)  
 
 summary(final.scores.ssl)
 
@@ -310,13 +304,11 @@ get.scores.fun<-function(data){
 }
 get.scores.fun
 
-scores.and.loadings.1<-get.scores.fun(extension)
+scores.and.loadings.1<-get.scores.fun(environment)
 scores.and.loadings.1$factor.loadings
 
-library(writexl)
-
 write_xlsx(final.scores.ssl, 
-           "C:/Users/Dell/Desktop/YD\\ext12.xlsx")
+           "C:/Users/Dell/Desktop/YD\\environment")
 df<-data.frame(final.scores.ssl)
 write_xlsx(df, 
            "C:/Users/Dell/Desktop/YD\\environmentalbenefits.xlsx")
